@@ -16,7 +16,7 @@ These are the versions of the blog project that I have created.
 
 ## [Version 4: Comment System](./Blog%20V4)
 
-- I've asked for feedback on the blog to my teachers and they suggested making a blog about the things I like. After that, I was looking around at other blogs and I saw that they had a comment system. I wanted to add one to my blog, but I didn't know how to do it. So I asked v0 to create a comment system for the blog. Using an API route to save the comments to a JSON file. I've tested it in the local environment and it works, but found out it doesn't work in the production environment when hosted on Vercel.
+- I've asked for feedback on the blog to my teachers and they suggested making a blog about the things I like. After that, I was looking around at other blogs checking out what topics they were discussing and what kind of blogs were posted. I came across blogs that were more like researches/articles focusing on trending and certain topics within the dev community. Addidionally I noticed that they had a comment system. I wanted to add one to my blog, but I didn't know how to do it. So I asked v0 to create a comment system for the blog. Using an API route to save the comments to a JSON file. I've tested it in the local environment and it works, but found out it doesn't work in the production environment when hosted on Vercel.
 
 ## [Version 5: Final Polish](./Blog%20V5)
 
