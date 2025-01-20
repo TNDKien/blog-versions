@@ -73,7 +73,7 @@ const Blog = ({ blok }: { blok: any }) => {
         </section>
 
         {/* Comment Section */}
-        <CommentSection articleid={blok._uid} />
+        <CommentSection articleId={blok._uid} />
       </div>
     </article>
   );

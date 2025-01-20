@@ -3,7 +3,6 @@ import { getStoryblokApi, storyblokEditable } from "@storyblok/react";
 import BlogTeaser from "../BlogTeaser/BlogTeaser";
 
 import { ReactNode } from "react";
-import { sub } from "date-fns";
 
 interface BlogContainerProps {
   blok: {
@@ -33,17 +32,11 @@ const BlogContainer = ({ blok }: BlogContainerProps) => {
 
         const formattedArtikelen = filteredArticles.map(
           (article: {
-            content: {
-              subtitel: string;
-              titel: any;
-              datum: any;
-              afbeelding: any;
-            };
+            content: { titel: any; datum: any; afbeelding: any };
             name: any;
             full_slug: any;
           }) => ({
             titel: article.content.titel || article.name,
-            subtitel: article.content.subtitel || "",
             datum: article.content.datum || "",
             afbeelding: article.content.afbeelding || null,
             slug: article.full_slug,
@@ -60,18 +53,15 @@ const BlogContainer = ({ blok }: BlogContainerProps) => {
   }, []);
 
   return (
-    <section
-      className="container mx-auto px-4 py-12"
-      {...storyblokEditable(blok)}
-    >
+    <section className="p-6 lg:px-24" {...storyblokEditable(blok)}>
       <div className="text-2xl font-bold mb-6">{blok.titel}</div>
       <div className="flex flex-wrap gap-6">
         {artikelen.map((article) => (
           <BlogTeaser
             article={article}
             key={article.slug}
-            className="w-72 h-auto flex-shrink-0 rounded-xl overflow-hidden"
-            imgClassName="w-full h-40 object-cover"
+            className="w-64 h-auto flex-shrink-0 rounded-xl overflow-hidden"
+            imgClassName="w-full object-cover"
           />
         ))}
       </div>

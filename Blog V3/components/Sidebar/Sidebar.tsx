@@ -7,9 +7,6 @@ import { useState } from "react";
 export default function Sidebar() {
   const [openSections, setOpenSections] = useState({
     gettingStarted: true,
-    courses: false,
-    article: false,
-    scroll: false,
     mouse: false,
     misc: false,
     "3d": false,
@@ -23,13 +20,16 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 p-4 space-y-4 h-screen overflow-y-auto">
+    <aside className="w-64 bg-white border-r border-gray-200 p-4 h-screen overflow-y-auto">
       <div className="mb-8">
-        <div className="h-8 w-8 bg-red-500 rounded-full" />
+        <img
+          className="rounded-full w-16 h-16 object-cover"
+          src="/me.jpeg"
+          alt="Kien Dang"
+        />
       </div>
 
       <nav className="space-y-2">
-        {/* Existing sections */}
         <div>
           <button
             onClick={() => toggleSection("gettingStarted")}
@@ -61,7 +61,7 @@ export default function Sidebar() {
         </div>
 
         {/* Mouse section */}
-        <div>
+        {/* <div>
           <button
             onClick={() => toggleSection("mouse")}
             className="flex items-center justify-between w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
@@ -115,10 +115,10 @@ export default function Sidebar() {
               </Link>
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* Misc section */}
-        <div>
+        {/* <div>
           <button
             onClick={() => toggleSection("misc")}
             className="flex items-center justify-between w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
@@ -146,7 +146,7 @@ export default function Sidebar() {
               </div>
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* 3D section */}
         <div>
@@ -163,36 +163,18 @@ export default function Sidebar() {
           </button>
           {openSections["3d"] && (
             <div className="ml-4 mt-1 space-y-1">
-              <div className="flex items-center px-2 py-1 text-gray-400">
-                Ripple Shader
-                <Lock className="w-3 h-3 ml-1" />
-              </div>
-              <div className="flex items-center px-2 py-1 text-gray-400">
-                Bulge Effect
-                <Lock className="w-3 h-3 ml-1" />
-              </div>
               <Link
-                href="/3d/wave-on-scroll"
+                href="/blog/firstapp"
                 className="block px-2 py-1 text-gray-600 hover:text-gray-900"
               >
-                3D Wave on Scroll
+                First App
               </Link>
               <Link
-                href="/3d/glass-effect"
+                href="/blog/blog2"
                 className="block px-2 py-1 text-gray-600 hover:text-gray-900"
               >
                 3D Glass Effect
               </Link>
-              <Link
-                href="/3d/creative-404"
-                className="block px-2 py-1 text-gray-600 hover:text-gray-900"
-              >
-                Creative 404
-              </Link>
-              <div className="flex items-center px-2 py-1 text-gray-400">
-                3D Parallax Letters
-                <Lock className="w-3 h-3 ml-1" />
-              </div>
             </div>
           )}
         </div>

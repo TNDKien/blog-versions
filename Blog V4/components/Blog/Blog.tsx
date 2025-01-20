@@ -2,7 +2,6 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { render } from "storyblok-rich-text-react-renderer";
 import { storyblokEditable } from "@storyblok/react/rsc";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { CommentSection } from "../../lib/components/comment-section";
 
 const Blog = ({ blok }: { blok: any }) => {
   return (
@@ -71,9 +70,6 @@ const Blog = ({ blok }: { blok: any }) => {
             },
           })}
         </section>
-
-        {/* Comment Section */}
-        <CommentSection articleid={blok._uid} />
       </div>
     </article>
   );

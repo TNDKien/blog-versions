@@ -1,62 +1,73 @@
-import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_KEY!
-);
+const COMMENTS_FILE = path.join(process.cwd(), "data", "comments.json");
+
+type Comment = {
+  id: string;
+  articleId: string;
+  author: string;
+  content: string;
+  createdAt: string;
+};
+
+function getComments(): Comment[] {
+  if (!fs.existsSync(COMMENTS_FILE)) {
+    return [];
+  }
+  const fileContents = fs.readFileSync(COMMENTS_FILE, "utf8");
+  return JSON.parse(fileContents);
+}
+
+function saveComments(comments: Comment[]) {
+  const dirPath = path.dirname(COMMENTS_FILE);
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
+  fs.writeFileSync(COMMENTS_FILE, JSON.stringify(comments, null, 2));
+}
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  const articleid = url.searchParams.get("articleid");
+  const articleId = url.searchParams.get("articleId");
 
-  if (!articleid) {
+  if (!articleId) {
     return NextResponse.json(
-      { error: "articleid query parameter is required" },
+      { error: "articleId query parameter is required" },
       { status: 400 }
     );
   }
 
-  try {
-    const { data, error } = await supabase
-      .from("comments")
-      .select("*")
-      .eq("articleid", articleid);
+  const comments = getComments();
+  const filteredComments = comments.filter(
+    (comment) => comment.articleId === articleId
+  );
 
-    if (error) {
-      console.error("Supabase fetch error:", error.message);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    return NextResponse.json(data || []);
-  } catch (err) {
-    console.error("Unexpected error:", err);
-    return NextResponse.json(
-      { error: "An unexpected error occurred" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(filteredComments);
 }
 
 export async function POST(req: Request) {
-  const { articleid, author, content } = await req.json();
+  const { articleId, author, content } = await req.json();
 
-  if (!articleid || !author || !content) {
+  if (!articleId || !author || !content) {
     return NextResponse.json(
       { error: "articleId, author, and content are required" },
       { status: 400 }
     );
   }
 
-  const { data, error } = await supabase
-    .from("comments")
-    .insert([{ articleid, author, content }])
-    .select()
-    .single();
+  const comments = getComments();
+  const newComment: Comment = {
+    id: Date.now().toString(),
+    articleId,
+    author,
+    content,
+    createdAt: new Date().toISOString(),
+  };
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+  comments.push(newComment);
+  saveComments(comments);
 
-  return NextResponse.json(data || {}, { status: 201 });
+  return NextResponse.json(newComment, { status: 201 });
 }

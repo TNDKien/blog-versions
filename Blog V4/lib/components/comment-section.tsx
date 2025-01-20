@@ -4,19 +4,24 @@ import { useState, useEffect } from "react";
 import { Button } from "@services/components/ui/button";
 import { Textarea } from "@services/components/ui/textarea";
 import { Input } from "@services/components/ui/input";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@services/components/ui/avatar";
 
 type Comment = {
   id: string;
   author: string;
   content: string;
-  createdat: string;
+  createdAt: string;
 };
 
 type CommentSectionProps = {
-  articleid: string;
+  articleId: string;
 };
 
-export function CommentSection({ articleid }: CommentSectionProps) {
+export function CommentSection({ articleId }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [username, setUsername] = useState("");
@@ -30,7 +35,7 @@ export function CommentSection({ articleid }: CommentSectionProps) {
   const fetchComments = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/comments?articleid=${articleid}`);
+      const response = await fetch(`/api/comments?articleId=${articleId}`);
       if (!response.ok) throw new Error("Failed to fetch comments");
       const data = await response.json();
       setComments(data);
@@ -52,7 +57,7 @@ export function CommentSection({ articleid }: CommentSectionProps) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            articleid,
+            articleId,
             author: username,
             content: newComment,
           }),
@@ -75,31 +80,34 @@ export function CommentSection({ articleid }: CommentSectionProps) {
 
   return (
     <div className="mt-8">
-      <h4 className="text-lg font-bold mb-4">Comments</h4>
+      <h2 className="text-2xl font-bold mb-4">Comments</h2>
       <form onSubmit={handleSubmit} className="mb-6 space-y-4">
         <Input
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Your username"
-          className="mb-4"
+          className="mb-2"
         />
         <Textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
           placeholder="Add a comment..."
-          className="mb-4"
+          className="mb-2"
         />
-        <Button variant="default" size="default">
-          {isPosting ? "Posting..." : "Post Comment"}
+        <Button type="submit" disabled={isPosting}>
+          {isPosting ? "'Posting...'" : "'Post Comment'"}
         </Button>
       </form>
       <div className="space-y-4">
         {comments.map((comment) => (
           <div key={comment.id} className="flex space-x-4">
+            <Avatar>
+              <AvatarFallback>{comment.author[0]}</AvatarFallback>
+            </Avatar>
             <div>
               <div className="font-semibold">{comment.author}</div>
               <div className="text-sm text-gray-500">
-                {new Date(comment.createdat).toLocaleString()}
+                {new Date(comment.createdAt).toLocaleString()}
               </div>
               <p className="mt-1">{comment.content}</p>
             </div>
