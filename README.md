@@ -23,7 +23,7 @@ These are the versions of the blog project that I have created.
 
 ## Third Iteration: Changing the way of storing data from the JSON within the project to a database
 
-## [Version 5: Final Polish](./Blog%20V5)
+## [Version 5: Comment system with Supabase](./Blog%20V5)
 
 - In this version, I've asked with chatGPT for suggestions on other ways to make a comment system. It suggested using a database to save the comments. I've created a database in Supabase and connected it to the blog. I've also created a comment component that shows the comments for an article.
 
